@@ -1,7 +1,7 @@
 <template>
   <body class="bg-gray-100 font-sans pb-24">
     <!-- Header -->
-    <app-header />
+    <app-header></app-header>
     <!-- Introduction -->
     <section
       class="mb-8 py-20 text-white text-center relative introduction-bg"
@@ -266,7 +266,7 @@
     </div>
 
     <!-- Auth Modal -->
-    <app-auth />
+    <app-auth></app-auth>
   </body>
 </template>
 
