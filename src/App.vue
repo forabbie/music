@@ -1,11 +1,11 @@
 <template>
   <body class="bg-gray-100 font-sans pb-24">
     <!-- Header -->
-    <app-header />
+    <app-header></app-header>
     <!-- Introduction -->
     <section
       class="mb-8 py-20 text-white text-center relative introduction-bg"
-      style="background-image: url('/src/assets/img/header.png')"
+      style="background-image: url('/public/img/header.png')"
     >
       <div class="container mx-auto">
         <div class="text-white main-header-content">
@@ -20,7 +20,7 @@
 
       <img
         class="relative block mx-auto mt-5 -mb-20 w-auto max-w-full"
-        src="@/assets/img/introduction-music.png"
+        src="/public/img/introduction-music.png"
       />
     </section>
 
@@ -266,7 +266,7 @@
     </div>
 
     <!-- Auth Modal -->
-    <app-auth />
+    <app-auth></app-auth>
   </body>
 </template>
 
