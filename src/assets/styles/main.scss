@@ -1,4 +1,25 @@
-@import url('tailwind.css');
+// Utils
+@use 'utils/variables';
+@use 'utils/mixins';
+@use 'utils/helpers';
+
+// Base
+@use 'base/reset';
+@use 'base/typography';
+
+// Components
+@use 'components/button';
+@use 'components/input';
+@use 'components/navbar';
+@use 'components/message';
+
+// Layout
+@use 'layout/header';
+@use 'layout/grid';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 a {
   transition: all 0.15s ease;

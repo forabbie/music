@@ -1,0 +1,11 @@
+.btn {
+  @apply rounded px-4 py-2 font-semibold transition-colors;
+
+  &--primary {
+    @apply bg-blue-500 text-white hover:bg-blue-600;
+  }
+
+  &--secondary {
+    @apply bg-gray-500 text-white hover:bg-gray-600;
+  }
+}
