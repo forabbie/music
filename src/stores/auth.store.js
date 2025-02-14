@@ -1,6 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { auth, usersCollection } from '@/plugins/firebase'
+import { auth, db } from '@/plugins/firebase'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+  signOut
+} from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
 
 export const useAuthStore = defineStore('auth', () => {
   const isAuthModalOpen = ref(false)
@@ -14,16 +21,18 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const register = async (payload) => {
-    const userCred = await auth.createUserWithEmailAndPassword(payload.email, payload.password)
+    const userCred = await createUserWithEmailAndPassword(auth, payload.email, payload.password)
 
-    await usersCollection.doc(userCred.user.uid).set({
+    // Save user info in Firestore
+    await setDoc(doc(db, 'users', userCred.user.uid), {
       name: payload.name,
       email: payload.email,
       age: payload.age,
       country: payload.country
     })
 
-    await userCred.user.updateProfile({
+    // Update user's display name
+    await updateProfile(userCred.user, {
       displayName: payload.name
     })
 
@@ -31,7 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const login = async (payload) => {
-    await auth.signInWithEmailAndPassword(payload.email, payload.password)
+    await signInWithEmailAndPassword(auth, payload.email, payload.password)
 
     toggleAuth()
   }
@@ -45,7 +54,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const signout = async () => {
-    await auth.signOut()
+    await signOut(auth)
     toggleAuth()
   }
   return { toggleAuthModal, toggleAuth, register, login, init_login, signout, isAuthModalOpen }

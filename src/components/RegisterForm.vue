@@ -90,7 +90,10 @@
     <ErrorMessage class="text-red-600" name="tos" />
     <button
       type="submit"
-      class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
+      :class="{
+        'block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700': true,
+        'cursor-not-allowed': in_submission
+      }"
       :disabled="in_submission"
     >
       Submit
@@ -100,6 +103,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth.store'
+
+const storeAuth = useAuthStore()
 
 const schema = ref({
   name: 'required|min:3|max:100|alpha_spaces',
@@ -122,9 +128,21 @@ const alert = ref({
   msg: 'Please wait! Your account is being created.'
 })
 
-const register = (values) => {
+const register = async (values) => {
   alert.value.show = true
   in_submission.value = true
+  alert.value.variant = 'bg-blue-500'
+  alert.value.msg = 'Please wait! Your account is being created.'
+
+  try {
+    await storeAuth.register(values)
+  } catch (error) {
+    in_submission.value = false
+    alert.value.variant = 'bg-red-500'
+    alert.value.msg = 'An unexpected error occured. Please try again later.'
+    console.error(error)
+    return
+  }
 
   alert.value.variant = 'bg-green-500'
   alert.value.msg = 'Success! Your account has been created.'
