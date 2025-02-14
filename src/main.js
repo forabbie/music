@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 
 import VeeValidatePlugin from './plugins/validation'
+import './plugins/firebase'
 
 import './assets/styles/main.scss'
 
