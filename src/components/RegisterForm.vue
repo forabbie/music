@@ -1,4 +1,7 @@
 <template>
+  <div class="text-white text-center font-bold p-4 mb-4" v-if="alert.show" :class="alert.variant">
+    {{ alert.msg }}
+  </div>
   <!-- Registration Form -->
   <vee-form :validation-schema="schema" @submit="register" :initial-values="userData">
     <!-- Name -->
@@ -88,6 +91,7 @@
     <button
       type="submit"
       class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
+      :disabled="in_submission"
     >
       Submit
     </button>
@@ -111,7 +115,19 @@ const userData = {
   country: 'USA'
 }
 
+const in_submission = ref(false)
+const alert = ref({
+  show: false,
+  variant: 'bg-blue-500',
+  msg: 'Please wait! Your account is being created.'
+})
+
 const register = (values) => {
+  alert.value.show = true
+  in_submission.value = true
+
+  alert.value.variant = 'bg-green-500'
+  alert.value.msg = 'Success! Your account has been created.'
   console.log('registered: ', values)
 }
 </script>
