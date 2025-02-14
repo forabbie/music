@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed z-10 inset-0 overflow-y-auto" id="modal" :class="{ hidden: !isOpen }">
+  <div class="fixed z-10 inset-0 overflow-y-auto" id="modal" :class="{ hidden: !isAuthModalOpen }">
     <div
       class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
     >
@@ -62,15 +62,15 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { useAuthModalStore } from '@/stores/modal'
+import { useAuthStore } from '@/stores/auth.store'
 import LoginForm from './LoginForm.vue'
 import RegisterForm from './RegisterForm.vue'
 
 const tab = ref('login')
 
-const storeAuthModal = useAuthModalStore()
-const isOpen = computed(() => storeAuthModal.isOpen)
+const storeAuth = useAuthStore()
+const isAuthModalOpen = computed(() => storeAuth.isAuthModalOpen)
 const toggleAuthModal = () => {
-  storeAuthModal.toggleAuthModal()
+  storeAuth.toggleAuthModal()
 }
 </script>

@@ -23,11 +23,11 @@
 </template>
 
 <script setup>
-import { useAuthModalStore } from '@/stores/modal'
+import { useAuthStore } from '@/stores/auth.store'
 
-const storeAuthModal = useAuthModalStore()
+const storeAuth = useAuthStore()
 
 const toggleAuthModal = () => {
-  storeAuthModal.toggleAuthModal()
+  storeAuth.toggleAuthModal()
 }
 </script>
