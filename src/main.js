@@ -1,12 +1,14 @@
 import App from './App.vue'
-import router from './router'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
+import router from './router'
 import VeeValidatePlugin from './plugins/validation'
+
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './plugins/firebase'
+
 import './assets/styles/main.scss'
 
 let app
