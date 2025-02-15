@@ -273,6 +273,12 @@
 <script setup>
 import AppHeader from '@/components/AppHeader.vue'
 import AppAuth from '@/components/AppAuth.vue'
-</script>
+import { onMounted } from 'vue'
 
-<style scoped></style>
+import { useAuthStore } from '@/stores/auth.store'
+const storeAuth = useAuthStore()
+
+onMounted(() => {
+  storeAuth.init_login()
+})
+</script>

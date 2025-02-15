@@ -8,14 +8,19 @@
         <!-- Primary Navigation -->
         <ul class="flex flex-row mt-1">
           <!-- Navigation Links -->
-          <li>
-            <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal"
-              >Login / Register</a
-            >
+          <li v-if="!userLoggedIn">
+            <a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal">
+              Login / Register
+            </a>
           </li>
-          <li>
-            <a class="px-2 text-white" href="#">Manage</a>
-          </li>
+          <template v-else>
+            <li>
+              <a class="px-2 text-white" href="#">Manage</a>
+            </li>
+            <li>
+              <a class="px-2 text-white" href="#" @click.prevent="signout">Logout</a>
+            </li>
+          </template>
         </ul>
       </div>
     </nav>
@@ -24,10 +29,20 @@
 
 <script setup>
 import { useAuthStore } from '@/stores/auth.store'
+import { computed } from 'vue'
 
 const storeAuth = useAuthStore()
+const userLoggedIn = computed(() => storeAuth.userLoggedIn)
 
 const toggleAuthModal = () => {
   storeAuth.toggleAuthModal()
+}
+
+const signout = async () => {
+  try {
+    await storeAuth.signout()
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>

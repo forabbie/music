@@ -57,5 +57,14 @@ export const useAuthStore = defineStore('auth', () => {
     await signOut(auth)
     toggleAuth()
   }
-  return { toggleAuthModal, toggleAuth, register, login, init_login, signout, isAuthModalOpen }
+  return {
+    toggleAuthModal,
+    toggleAuth,
+    register,
+    login,
+    init_login,
+    signout,
+    isAuthModalOpen,
+    userLoggedIn
+  }
 })
