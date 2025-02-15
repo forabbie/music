@@ -42,6 +42,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth.store'
+
+const storeAuth = useAuthStore()
 
 const schema = ref({
   email: 'required|email',
@@ -55,9 +58,19 @@ const alert = ref({
   msg: 'Please wait! Your account is being created.'
 })
 
-const login = (values) => {
+const login = async (values) => {
   alert.value.show = true
   in_submission.value = true
+
+  try {
+    await storeAuth.login(values)
+  } catch (error) {
+    in_submission.value = false
+    alert.value.variant = 'bg-red-500'
+    alert.value.msg = 'An unexpected error occured. Please try again later.'
+    console.error(error)
+    return
+  }
 
   alert.value.variant = 'bg-green-500'
   alert.value.msg = 'Success! Your account has been created.'
