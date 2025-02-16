@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ManageView from '../views/ManageView.vue'
 
 import { useAuthStore } from '@/stores/auth.store'
 
@@ -10,9 +11,9 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue')
+    path: '/manage',
+    name: 'manage',
+    component: ManageView
   }
 ]
 
