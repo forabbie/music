@@ -1,19 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import ManageView from '../views/ManageView.vue'
+import Home from '../views/HomeView.vue'
+import Manage from '../views/ManageView.vue'
 
 import { useAuthStore } from '@/stores/auth.store'
 
 const routes = [
   {
-    path: '/',
     name: 'home',
-    component: HomeView
+    path: '/',
+    component: Home
   },
   {
-    path: '/manage',
     name: 'manage',
-    component: ManageView
+    path: '/manage',
+    meta: {
+      requiresAuth: true
+    },
+    component: Manage,
+    beforeEnter: (to, from, next) => {
+      next()
+    }
   },
   {
     path: '/:catchAll(.*)*',
