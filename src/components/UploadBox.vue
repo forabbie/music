@@ -8,38 +8,32 @@
       <!-- Upload Dropbox -->
       <div
         class="w-full px-10 py-20 rounded text-center cursor-pointer border border-dashed border-gray-400 text-gray-400 transition duration-500 hover:text-white hover:bg-green-400 hover:border-green-400 hover:border-solid"
-        :class="{ 'bg-green-400 border-green-400 border-solid': is_dragover }"
+        :class="{ 'bg-green-400 border-green-400 border-solid': isDragOver }"
         @drag.prevent.stop=""
         @dragstart.prevent.stop=""
-        @dragend.prevent.stop="is_dragover = false"
-        @dragover.prevent.stop="is_dragover = true"
-        @dragenter.prevent.stop="is_dragover = true"
-        @dragleave.prevent.stop="is_dragover = false"
+        @dragend.prevent.stop="isDragOver = false"
+        @dragover.prevent.stop="isDragOver = true"
+        @dragenter.prevent.stop="isDragOver = true"
+        @dragleave.prevent.stop="isDragOver = false"
         @drop.prevent.stop="upload($event)"
       >
-        >
         <h5>Drop your files here</h5>
       </div>
+      <input type="file" multiple @change="upload($event)" class="hidden" />
       <hr class="my-6" />
       <!-- Progess Bars -->
-      <div class="mb-4">
+      <div class="mb-4" v-for="upload in uploads" :key="upload.name">
         <!-- File Name -->
-        <div class="font-bold text-sm">Just another song.mp3</div>
+        <div class="font-bold text-sm" :class="upload.text_class">
+          <i :class="upload.icon"></i> {{ upload.name }}
+        </div>
         <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
           <!-- Inner Progress Bar -->
-          <div class="transition-all progress-bar bg-blue-400" style="width: 75%"></div>
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="font-bold text-sm">Just another song.mp3</div>
-        <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-          <div class="transition-all progress-bar bg-blue-400" style="width: 35%"></div>
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="font-bold text-sm">Just another song.mp3</div>
-        <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-          <div class="transition-all progress-bar bg-blue-400" style="width: 55%"></div>
+          <div
+            class="transition-all progress-bar"
+            :class="upload.variant"
+            :style="{ width: upload.current_progress + '%' }"
+          ></div>
         </div>
       </div>
     </div>
@@ -49,6 +43,35 @@
 <script setup>
 import { ref } from 'vue'
 
-const is_dragover = ref(false)
-const upload = () => {}
+const isDragOver = ref(false)
+const uploads = ref([])
+
+const upload = (event) => {
+  isDragOver.value = false
+
+  if (!event.dataTransfer?.files.length) return
+
+  const files = Array.from(event.dataTransfer.files).filter((file) => file.type !== 'audio/mpeg')
+
+  if (files.length === 0) {
+    console.warn('No valid MP3 files to upload.')
+    return
+  }
+
+  files.forEach(async (file) => {
+    // console.log(file)
+    const fileURL = URL.createObjectURL(file) // Generate a temporary URL for playback
+
+    uploads.value.push({
+      name: file.name,
+      url: fileURL, // Store the object URL
+      current_progress: 100, // Set progress to 100% immediately since there's no actual upload
+      icon: 'pi pi-music', // PrimeVue music icon
+      variant: 'bg-green-500', // Completed state
+      text_class: 'text-gray-800'
+    })
+  })
+
+  console.log('Uploaded files:', files)
+}
 </script>

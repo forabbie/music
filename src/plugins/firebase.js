@@ -20,4 +20,4 @@ const auth = getAuth(app)
 const db = getFirestore(app)
 const usersCollection = collection(db, 'users')
 
-export { auth, db, usersCollection }
+export { app, auth, db, usersCollection }
