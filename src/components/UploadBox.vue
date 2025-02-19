@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeUnmount } from 'vue'
 
 const isDragOver = ref(false)
 const uploads = ref([])
@@ -74,4 +74,11 @@ const upload = (event) => {
 
   console.log('Uploaded files:', files)
 }
+
+onBeforeUnmount(() => {
+  uploads.value.forEach((upload) => {
+    URL.revokeObjectURL(upload.url) // Free memory by revoking URLs
+  })
+  uploads.value = [] // Clear the list
+})
 </script>
